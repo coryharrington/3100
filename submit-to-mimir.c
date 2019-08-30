@@ -2,13 +2,13 @@
 #include <stdlib.h>
 
 void handle(char* command) {
-    if(system(command) != 0) { prinf("%s : RETURNED NON 0 CODE"); }
+    if(system(command) != 0) { printf("%s : RETURNED NON 0 CODE", command); }
 }
 
 int submit(char* type, int n) {
-    prinf("testing");
+    printf("testing");
     handle(sprintf("git checkout -b %s%d", type, n));
-    handle(sprinf("git ls-files | grep -Ev %s%d >)", sprintf("%s|.gitignore|README.md|utils.h", type), n));
+    handle(sprintf("git ls-files | grep -Ev %s%d >)", sprintf("%s|.gitignore|README.md|utils.h", type), n));
 }
 
 int main(int argc, char* argv) {
