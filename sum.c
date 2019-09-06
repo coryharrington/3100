@@ -9,7 +9,7 @@
   from 1 to n, for a given n    
 */
 #include <stdio.h>
-#include "./utils.h"
+#define length(x)  (sizeof(x) / sizeof((x)[0]))
 
 int sum(int n) {
   int i, sum;
