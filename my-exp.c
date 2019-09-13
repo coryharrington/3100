@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 
 double factorial(int n) {
     double product;
@@ -7,9 +6,15 @@ double factorial(int n) {
     return product;
 }
 
+double x_exp(double x, int n) {
+    double product;
+    for(product = x; n > 1; product *= x, n--);
+    return product;
+}
+
 double e_exp(double x, int n) {
     double sum;
-    for(sum = 1; n > 0; sum += (pow(x, n)/factorial(n)), n--);
+    for(sum = 1; n > 0; sum += (x_exp(x, n)/factorial(n)), n--);
     return sum;
 }
 
