@@ -22,6 +22,6 @@ int main() {
     double x;
     int n;
     while (scanf("%lf%d", &x, &n) == 2)
-        printf("exp(%lf)=%.10f\n", x, e_exp(x, n - 1));
+        printf("exp(%.10f)=%.10f\n", x, e_exp(x, n - 1));
     return 0;
 }
