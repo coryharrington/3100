@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-int factorial(int n)
+double factorial(int n)
 {
-    int product;
+    double product;
     if(n == 0)
         return 1;
     for(product = 1; n > 1; product *= n, n--);
@@ -17,6 +17,6 @@ int main()
         printf("Error: Please enter a non-negative integer.\n");
         return 0;
     }
-    printf("%d\n", factorial(n));
+    printf("%d\n", (int)factorial(n));
     return 0;
 }
