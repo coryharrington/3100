@@ -1,10 +1,17 @@
 #include <stdio.h>
 
-long catalan_number(int n)
+long long new_catalan_number(int n)
 {
-    long num, denom;
+    long long num, denom;
     for(num = denom = 1; n > 1; num *= (4*n)-2, denom *= (n + 1), n--);
     return num / denom;
+}
+
+long catalan_number(int n)
+{
+    if (n < 1)
+        return 1;
+    return ((4*n)-2)*catalan_number(n - 1)/(n+1);
 }
 
 int main(void)
