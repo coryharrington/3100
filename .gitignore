@@ -1,5 +1,5 @@
 ./.vscode/
+.vscode/settings.json
 
 linear.c
 submit-to-mimir.c
-mimir
