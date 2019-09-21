@@ -22,7 +22,7 @@ int adv(char ascii)
 
 int next(int (*state)())
 {
-    if(eos == 0) {
+    if(!eos) {
         value_char = getchar();
         value_i = adv(value_char);
     }
@@ -117,7 +117,7 @@ int main()
 {
     do {
         // Call DFA
-        if(next(&s) == 1) {
+        if(next(&s)) {
             printf("Invalid date.\n");
         }
     } while(!feof(stdin));
