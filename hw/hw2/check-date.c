@@ -25,57 +25,48 @@ int next(int (*state)())
     if(eos == 0) {
         value_char = getchar();
         value_i = adv(value_char);
-        printf("\nvalue | char : %c | int : %d | ", value_char, value_i);
     }
     return (*state)();
 }
 
 // Final state, date check
 int ok() {
-    printf("\nstate : ok");
     int y = 1000 * year[0] + 100 * year[1] + 10 * year[2] + year[3];
     // Leap year ?
-    if(y % 4 == 0 && y % 100 != 0) {
-        printf("\nLeap year!");
+    if(y % 4 == 0 && y % 100 != 0)
         days_in_months[1]++;
-    }
     int m = month[1] == 0 ? month[0] : 10 * month[0] + month[1];
     int d = day[1] == 0 ? day[0] : 10 * day[0] + day[1];
-    printf("\nyear : %d | month : %d | day : %d", y, m, d);
-    // Validate date
+    // Validate date ?
     if(y < MIN_YEAR || y > MAX_YEAR || m < 0 || m > 12 || d > days_in_months[m-1])
-        printf("\nInvalid date.\n");
+        printf("Invalid date ok.\n");
     else
-        printf("\nValid date.\n");
+        printf("Valid date.\n");
     eos = 0;
     return 0;
 }
 
 // Exit state
 int y4() { 
-    printf("state : y4");
     if(value_i == -38) {
         eos = 1;
         return next(&ok);
     }
-    printf("\nNo date found.\n");
+    printf("No date found.\n");
     // To clear new line feed '\n' after non digit
     getchar();
     return 0;
 }
 int y3() {
-    printf("state : y3");
     year[3] = value_i;
     if(isdigit(value_char))
         return next(&y4);
-    printf("\nNo date found.\n");
+    printf("No date found.\n");
     // To clear new line fee '\n' after non digit
-    getchar();
-    return isdigit(value_char) ? next(&y4) : 1;
+    return 0;
 }
 // Exit state
 int y2() {
-    printf("state : y2");
     year[2] = value_i;
     if(value_char == '\n') {
         eos = 1;
@@ -89,45 +80,37 @@ int y2() {
     return isdigit(value_char) ? next(&y3) : 1;
 }
 int yb() {
-    printf("state : y1");
     year[1] = value_i;
     if(isdigit(value_char))
         return next(&y2);
-    printf("\nNo date found.");
+    printf("No date found.\n");
     return 0;
 }
 int ya() {
-    printf("state : y0");
     year[0] = value_i;
     return isdigit(value_char) ? next(&yb) : 1;
 }
 int d2() {
-    printf("state : d2"); 
     return value_i == -1 ? next(&ya) : 1;
 }
 int d1() {
-    printf("state : d1");
     day[1] = value_i != -1 ? value_i : 0;
     return isdigit(value_char) ? next(&d2) : (value_i == -1 ? next(&ya) : 1);
 }
 int d0() {
-    printf("state : d0");
     day[0] = value_i;
     return isdigit(value_char) ? next(&d1) : 1;
 }
 int m2() {
-    printf("state : m2");
     return value_i == -1 ? next(&d0) : 1;
 }
 int m1() {
     month[1] = value_i != -1 ? value_i : 0;
-    printf("state : m1");
     return isdigit(value_char) ? next(&m2) : (value_i == -1 ? next(&d0) : 1);
 }
 int s() { 
-    printf("state : s");
     month[0] = value_i;
-    return isblank(value_char) ? next(&s) : (isdigit(value_char) ? next(&m1) : 1);
+    return isblank(value_char) || value_i == -38 ? next(&s) : (isdigit(value_char) ? next(&m1) : 1);
 }
 
 int main()
@@ -135,7 +118,7 @@ int main()
     do {
         // Call DFA
         if(next(&s) == 1) {
-            printf("\nInvalid date.\n");
+            printf("Invalid date.\n");
         }
     } while(!feof(stdin));
     return 0;
