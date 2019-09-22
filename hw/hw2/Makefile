@@ -4,12 +4,9 @@ TARGETS=check-date odd-sum
 
 all: $(TARGETS)
 
-check-date: check-date.c
-	cc $(CFLAGS) -o check-date check-date.c
-
-odd-sum: odd-sum.c
-	cc $(CFLAGS) -o odd-sum odd-sum.c
+#Static Pattern Rules
+$(TARGETS): % : %.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
-	rm -rf *.o *~ $(TARGETS) a.out \
-	rm -rf check-date.dSYM odd-sum.dSYM
+	rm -rf *.o *~ $(TARGETS)
