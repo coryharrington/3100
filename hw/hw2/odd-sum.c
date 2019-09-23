@@ -1,51 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Search for `count' distinct odd numbers that 
- * are smaller than `bound' and add up to `sum'.  
- *
- * Return value:
- *  1: A solution is found and printed.
- *  0: No solution was found.
- */
-double factorial(int n)
-{
-    double product;
-    for(product = 1; n > 1; product *= n, n--);
-    return product;
-}
-
-double choose(int n, int k)
-{
-    return factorial(n) / (factorial(n-k) * factorial(k));
-}
-
 int odd_sum(int count, int bound, int sum)
 {
-    // Get and populate int* of odds < bound
-    int numodds = bound / 2;
-    int *odds = (int*) malloc(numodds *sizeof(int));
-    if(odds == NULL)
-        perror("Error : ");
-    for(int i = 1; i < numodds; odds[i] = i, i += 2);
-    // Find all possible combinations, and create int*'s for them
-    int ncombs = choose(numodds, count);
-    int **combs = (int**) malloc(sizeof(int*) * ncombs);
-    if(combs == NULL)
-        perror("Error : ");
-    for(int i = 0; i < ncombs; i++)
-    {
-        combs[i] = (int*) malloc(sizeof(int) * count);
-        if(combs[i] == NULL)
-            perror("Error : ");
-    }
-
-    return 0;
+    if(sum == 0 && count == 0)
+        return 1;
+    if(sum < 0 || bound <= 0)
+        return 0;
+    if(bound % 2 == 0)
+        bound--;
+    int result = odd_sum(count - 1, bound - 1, sum - bound);
+    return !result && bound != 0 ? odd_sum(count, bound - 1, sum) : !result && !bound ? 0 : printf("%d ", bound) - 1;
 }
 
 int main(void)
 {
-    int value;
     int c, b, s;
     printf("Please enter 3 positive integers: count, bound, and sum:\n");
     if(scanf("%d%d%d", &c, &b, &s) != 3) {
@@ -56,11 +25,8 @@ int main(void)
         printf("Integers must be positive.\n");
         return 1;
     }
-    value = odd_sum(c, b, s);
-    if(1) {
-        printf("Testing");
+    if(odd_sum(c, b, s))
         printf("\n");
-    }
     else
         printf("There are no solutions.\n");
     return 0;
