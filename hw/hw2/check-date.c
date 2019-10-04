@@ -39,7 +39,7 @@ int ok() {
     int d = day[1] == 0 ? day[0] : 10 * day[0] + day[1];
     // Validate date ?
     if(y < MIN_YEAR || y > MAX_YEAR || m < 0 || m > 12 || d > days_in_months[m-1])
-        printf("Invalid date ok.\n");
+        printf("Invalid date.\n");
     else
         printf("Valid date.\n");
     eos = 0;
